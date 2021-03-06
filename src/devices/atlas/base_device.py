@@ -19,6 +19,12 @@ class BaseDevice:
     @property
     def moduletype(self) -> AtlasDeviceTypes:
         return self.device.moduletype
+
+    def write(self, cmd) -> None:
+        self.device.write(cmd=cmd)
+
+    def read(self, num_of_bytes=31) -> BaseResponse:
+        return self.device.read(num_of_bytes=num_of_bytes)
     
     def change_address(self, new_address: int) -> None:
         if(new_address < 1 or new_address > 127):
