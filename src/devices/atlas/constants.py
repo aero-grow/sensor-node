@@ -30,6 +30,7 @@ class AtlasDeviceTypes(Enum):
     RTD = "RTD"
 
 class AtlasResponseCodes(Enum):
+    SLEEP = '-1'
     UNDEFINED = ''
     SUCCESS = '1'
     SYNTAX_ERROR = '2'

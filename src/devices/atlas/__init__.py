@@ -5,14 +5,14 @@ from .base_device import BaseDevice
 from .constants import AtlasDeviceTypes
 
 #sensors
-from .ezo_co2 import EzoCo2
-from .ezo_do import EzoDo
-from .ezo_ec import EzoEc
-from .ezo_hum import EzoHum
-from .ezo_orp import EzoOrp
-from .ezo_ph import EzoPh
-from .ezo_prs import EzoPrs
-from .ezo_rtd import EzoRtd
+from .ezo_co2 import EzoCO2
+from .ezo_do import EzoDO
+from .ezo_ec import EzoEC
+from .ezo_hum import EzoHUM
+from .ezo_orp import EzoORP
+from .ezo_ph import EzopH
+from .ezo_prs import EzoPRS
+from .ezo_rtd import EzoRTD
 
 #actuators
-from .ezo_pmp import EzoPmp
+from .ezo_pmp import EzoPMP

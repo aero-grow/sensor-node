@@ -8,6 +8,7 @@ import copy
 import string
 
 from .constants import AtlasDeviceTypes, AtlasResponseCodes, DEFAULT_ADDRESS, DEFAULT_BUS, LONG_TIMEOUT, LONG_TIMEOUT_COMMANDS, SHORT_TIMEOUT, SLEEP_COMMANDS
+from .base_response import BaseResponse
 
 class AtlasI2C:
     def __init__(self, address = None, moduletype: AtlasDeviceTypes = AtlasDeviceTypes.UNDEFINED, name = "", bus = None):
@@ -108,7 +109,7 @@ class AtlasI2C:
         else:
             return self._module + " " + str(self.address) + " " + self._name
         
-    def read(self, num_of_bytes=31):
+    def read(self, num_of_bytes=31) -> BaseResponse:
         '''
         reads a specified number of bytes from I2C, then parses and displays the result
         '''
@@ -118,16 +119,11 @@ class AtlasI2C:
         print(response)
         status_code = self.get_status_code(response=response)
         
-        
-
-        if is_valid:
+        if status_code == AtlasResponseCodes.SUCCESS:
             char_list = self.handle_raspi_glitch(response[1:])
-            result = "Success " + self.get_device_info() + ": " +  str(''.join(char_list))
-            #result = "Success: " +  str(''.join(char_list))
+            return BaseResponse(status_code=status_code, response_data=str(''.join(char_list)))
         else:
-            result = "Error " + self.get_device_info() + ": " + error_code
-
-        return result
+            return BaseResponse(status_code=status_code)
 
     def get_command_timeout(self, command):
         timeout = None
@@ -138,7 +134,7 @@ class AtlasI2C:
 
         return timeout
 
-    def query(self, command):
+    def query(self, command) -> BaseResponse:
         '''
         write a command to the board, wait the correct timeout, 
         and read the response
@@ -146,7 +142,7 @@ class AtlasI2C:
         self.write(command)
         current_timeout = self.get_command_timeout(command=command)
         if not current_timeout:
-            return "sleep mode"
+            return BaseResponse(status_code=AtlasResponseCodes.SLEEP)
         else:
             time.sleep(current_timeout)
             return self.read()

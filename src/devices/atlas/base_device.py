@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from devices.atlas.base_response import BaseResponse
 from .atlasi2c import AtlasI2C
 from .constants import AtlasDeviceTypes
 
@@ -35,6 +36,11 @@ class BaseDevice:
         response = self.device.query("L,?")
         return True if response.split(",")[1] == "1" else False
 
+    def set_name(self, new_name: str):
+        if(len(new_name) > 16):
+            new_name = new_name[0:15]
+        return self.device.query(f'Name,{new_name}')
+
     def get_info(self):
         return self.device.query("I")
 
@@ -46,3 +52,18 @@ class BaseDevice:
     
     def lock_protocol(self, unlock = False):
         return self.device.query(f'Plock,{0 if unlock else 1}')
+
+class TempCompensatedBaseDevice(BaseDevice):
+
+    def __init__(self, device: AtlasI2C):
+        super().__init__(device)
+
+    def set_temp_compensation(self, current_temp: int = 20):
+        return self.device.query(f'T,{current_temp}')
+    
+    def read_temp_compensated(self, current_temp: int = 20):
+        '''
+        Reads the value of D.O. after setting the temperature compensation.
+        Basically, does two actions at once (set_temp_compensation & read), reducing delay time.
+        '''
+        return self.device.query(f'RT,{current_temp}')
