@@ -2,7 +2,7 @@
 
 from enum import Enum
 
-from devices.atlas.base_response import BaseResponse
+from devices.atlas.base_response import BaseResponse, SingleFloatResponse
 from .constants import AtlasResponseCodes
 from .atlasi2c import AtlasI2C
 from .base_device import BaseDevice
@@ -37,3 +37,7 @@ class EzoPRS(BaseDevice):
             return self.device.query(f'U,{1 if output_to_read else 0}')
         else:
             return response
+
+    def read_value(self) -> SingleFloatResponse:
+        response = super().read_value()
+        return SingleFloatResponse(response.status_code, response.response_data)

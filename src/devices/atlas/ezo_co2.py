@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from devices.atlas.base_response import SingleIntResponse
 from .atlasi2c import AtlasI2C
 from .base_device import BaseDevice
 from .constants import AtlasResponseCodes
@@ -17,6 +18,8 @@ class EzoCO2(BaseDevice):
         if(tolerence is not None and response.status_code == AtlasResponseCodes.SUCCESS):
             return self.device.query(f'Alarm,tol,{tolerence}')
         else:
-            return response
+            return response    
     
-    
+    def read_value(self) -> SingleIntResponse:
+        response = super().read_value()
+        return SingleIntResponse(response.status_code, response.response_data)

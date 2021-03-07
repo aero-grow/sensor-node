@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 from enum import Enum
+
+from devices.atlas.base_response import SingleFloatResponse
 from .atlasi2c import AtlasI2C
 from .base_device import BaseDevice
 
@@ -15,3 +17,7 @@ class EzoRTD(BaseDevice):
 
     def set_scale(self, scale: RTDTempScale = RTDTempScale.celsius):
         return self.device.query(f'S,{scale.value}')
+        
+    def read_value(self) -> SingleFloatResponse:
+        response = super().read_value()
+        return SingleFloatResponse(response.status_code, response.response_data)
