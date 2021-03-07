@@ -1,11 +1,6 @@
 #!/usr/bin/python
 
-import io
-import sys
-import fcntl
 import time
-import copy
-import string
 import typing
 from devices.atlas import constants
 from devices.atlas.base_device import BaseDevice
