@@ -1,2 +1,8 @@
+pip
 rak811
 pycayennelpp
+setuptools
+wheel
+smbus2
+RPi.GPIO
+balena-sdk
