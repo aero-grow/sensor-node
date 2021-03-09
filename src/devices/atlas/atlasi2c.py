@@ -5,7 +5,6 @@ import sys
 import fcntl    # pylint: disable=import-error
 import time
 import copy
-import string
 
 from .constants import AtlasDeviceTypes, AtlasResponseCodes, DEFAULT_ADDRESS, DEFAULT_BUS, LONG_TIMEOUT, LONG_TIMEOUT_COMMANDS, SHORT_TIMEOUT, SLEEP_COMMANDS
 from .base_response import BaseResponse
